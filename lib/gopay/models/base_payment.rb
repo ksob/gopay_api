@@ -32,7 +32,7 @@ module GoPay
     end
 
     def load(validated_status = nil)
-      client = Savon::Client.new wsdl: GoPay.configuration.urls["wsdl"], log: false
+      client = Savon::Client.new wsdl: GoPay.configuration.urls["wsdl"], log: false, ssl_verify_mode: :none, follow_redirects: true
       soap_response = client.call :payment_status, message: { payment_session_info: payment_session_hash }
 
       self.response = soap_response.to_hash[:payment_status_response][:payment_status_return]
